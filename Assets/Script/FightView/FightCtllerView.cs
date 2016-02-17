@@ -13,6 +13,8 @@ public class FightCtllerView : MonoBehaviour
 
     FightGridView[] m_fg = new FightGridView[2];
 
+    GameObject m_field;
+
     public FightGridView[] FGridViews
     {
         get
@@ -35,7 +37,8 @@ public class FightCtllerView : MonoBehaviour
             m_fg[i] = Util.NewGameObject("Grid_" + ctller.FGrids[i].Dir.ToString(), gameObject).AddComponent<FightGridView>();
             m_fg[i].Create(this, m_ctller.FGrids[i]);
         }
-        
+
+        m_field = ResMgr.Instance.CreateGameObject(string.Format("Field/{0}", "F01"), gameObject);
 	}
     
     void Update()

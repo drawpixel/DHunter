@@ -23,7 +23,7 @@ public class ProtoMgr
     }
     Dictionary<Type, Member> m_members = new Dictionary<Type, Member>();
 
-    Dictionary<string, ProtoAircraft> m_aircrafts = new Dictionary<string, ProtoAircraft>();
+    Dictionary<string, ProtoCreature> m_aircrafts = new Dictionary<string, ProtoCreature>();
 
     public delegate string DgtLoad(string path);
     DgtLoad m_loader = null;
@@ -32,8 +32,7 @@ public class ProtoMgr
     {
         m_loader = loader;
 
-        LoadProto<ProtoGun>("Proto/Gun");
-        LoadProto<ProtoAircraft>("Proto/Aircraft");
+        LoadProto<ProtoCreature>("Proto/Creature");
         
     }
 

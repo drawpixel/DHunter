@@ -35,12 +35,6 @@ public class Launcher : MonoBehaviour
 		FxPool.CreasteInstance ();
 		FxPool.Instance.Init ();
 
-        BulletPool.CreasteInstance();
-        BulletPool.Instance.Init();
-
-        BulletViewPool.CreasteInstance();
-        BulletViewPool.Instance.Init();
-
         ProtoMgr.CreasteInstance();
         ProtoMgr.Instance.Init((string path) =>
             {
@@ -94,7 +88,7 @@ public class Launcher : MonoBehaviour
     FightCtllerView m_fcv;
     void SetupFightCtller()
     {
-        ResMgr.Instance.CreateGameObject("BG/BG01", gameObject);
+        //ResMgr.Instance.CreateGameObject("BG/BG01", gameObject);
 
         m_fc = new FightCtller();
         m_fc.Create();
@@ -106,36 +100,31 @@ public class Launcher : MonoBehaviour
         string[] keys = null;
         Int2D[] pts = null;
 
-        keys = new string[] { "P06", "P01", "P05"};
-        pts = new Int2D[] { new Int2D(0, 0), new Int2D(0, 2), new Int2D(2, 0) };
-        for (int p = 0; p < 3; ++ p)
+        keys = new string[] { "M01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01" };
+        pts = new Int2D[] { new Int2D(0, 0), new Int2D(2, 0), new Int2D(3, 0), new Int2D(4, 0), new Int2D(0, 1), new Int2D(1, 1), new Int2D(2, 1), new Int2D(3, 1), new Int2D(4, 1), new Int2D(0, 2), new Int2D(1, 2), new Int2D(2, 2), new Int2D(3, 2), new Int2D(4, 2)};
+        for (int p = 0; p < keys.Length; ++ p)
         {
             string k = keys[p];
-            InfoAircraft info = new InfoAircraft(ProtoMgr.Instance.GetByKey<ProtoAircraft>(k));
-            info.Guns = new InfoGun[info.Proto.Guns.Length];
-            for (int i = 0; i < info.Guns.Length; ++i)
-            {
-                info.Guns[i] = new InfoGun(info.Proto.ProtoGuns[i]);
-            }
-
-            Aircraft ac = new Aircraft();
+            InfoCreature info = new InfoCreature(ProtoMgr.Instance.GetByKey<ProtoCreature>(k));
+            
+            Creature ac = new Creature();
             ac.Create(info);
             m_fc.FGrids[0].AddAircraft(ac, pts[p]);
         }
 
-        keys = new string[] { "P06", "P01", "P05" };
+        keys = new string[] { "M01", "N01" };
         pts = new Int2D[] { new Int2D(2, 1), new Int2D(0, 2), new Int2D(1, 0) };
-        for (int p = 0; p < 3; ++p)
+        for (int p = 0; p < 2; ++p)
         {
             string k = keys[p];
-            InfoAircraft info = new InfoAircraft(ProtoMgr.Instance.GetByKey<ProtoAircraft>(k));
-            info.Guns = new InfoGun[info.Proto.Guns.Length];
-            for (int i = 0; i < info.Guns.Length; ++i)
-            {
-                info.Guns[i] = new InfoGun(info.Proto.ProtoGuns[i]);
-            }
+            InfoCreature info = new InfoCreature(ProtoMgr.Instance.GetByKey<ProtoCreature>(k));
+            //info.Guns = new InfoGun[info.Proto.Guns.Length];
+            //for (int i = 0; i < info.Guns.Length; ++i)
+            //{
+            //    info.Guns[i] = new InfoGun(info.Proto.ProtoGuns[i]);
+            //}
 
-            Aircraft ac = new Aircraft();
+            Creature ac = new Creature();
             ac.Create(info);
             m_fc.FGrids[1].AddAircraft(ac, pts[p]);
         }

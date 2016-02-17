@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class FightGrid
 {
-    public static int UnitSize = 100;
+    public static int UnitSize = 200;
     public static int FightSize = 300;
     public static Int2D UnitCount = new Int2D(5, 3);
 
 
-    public delegate void DgtAddAircraft(Aircraft ac, Int2D pt);
+    public delegate void DgtAddAircraft(Creature ac, Int2D pt);
     public DgtAddAircraft OnAddAircraft;
 
 
@@ -34,10 +34,10 @@ public class FightGrid
     public class Unit
     {
         public Int2D Index = new Int2D(0, 0);
-        public Vector2 Position = Vector2.zero;
-        public Aircraft Aircraft = null;
+        public Vector3 Position = Vector3.zero;
+        public Creature Aircraft = null;
 
-        public Unit(Int2D idx, Aircraft ac)
+        public Unit(Int2D idx, Creature ac)
         {
             Index = idx;
             Aircraft = ac;
@@ -54,8 +54,8 @@ public class FightGrid
 
 
 
-    Dictionary<Aircraft, Unit> m_acs = new Dictionary<Aircraft, Unit>();
-    public Dictionary<Aircraft, Unit> Aircrafts
+    Dictionary<Creature, Unit> m_acs = new Dictionary<Creature, Unit>();
+    public Dictionary<Creature, Unit> Aircrafts
     {
         get { return m_acs; }
     }
@@ -80,7 +80,7 @@ public class FightGrid
     
     public void Update(float interval)
     {
-        foreach (Aircraft ac in m_acs.Keys)
+        foreach (Creature ac in m_acs.Keys)
         {
             ac.Update(interval);
         }
@@ -88,13 +88,13 @@ public class FightGrid
 
     public void Fight()
     {
-        foreach (Aircraft ac in m_acs.Keys)
+        foreach (Creature ac in m_acs.Keys)
         {
             ac.Fight();
         }
     }
 
-    public bool CheckAircraft(Aircraft ac, Int2D pt)
+    public bool CheckAircraft(Creature ac, Int2D pt)
     {
         for (int i = 0; i < ac.Info.Proto.Occupies.Length; ++i)
         {
@@ -106,7 +106,7 @@ public class FightGrid
         }
         return true;
     }
-    public void AddAircraft(Aircraft ac, Int2D pt)
+    public void AddAircraft(Creature ac, Int2D pt)
     {
         if (!CheckAircraft(ac, pt))
             return;
@@ -127,7 +127,7 @@ public class FightGrid
             OnAddAircraft(ac, pt);
         }
     }
-    public void RemoveAircraft(Aircraft ac)
+    public void RemoveAircraft(Creature ac)
     {
         m_acs.Remove(ac);
         for (int y = 0; y < Units.GetLength(0); ++y)
@@ -212,18 +212,18 @@ public class FightGrid
         return m_units[y, x];
     }
 
-    public static Vector2 CalcUnitPosition(Int2D idx, DirType dir)
+    public static Vector3 CalcUnitPosition(Int2D idx, DirType dir)
     {
-        Vector2 pos = Vector3.zero;
+        Vector3 pos = Vector3.zero;
         pos.x = -UnitCount.X * UnitSize / 2;
         pos.x += idx.X * UnitSize;
-        pos.y = -300; //-(FightCtller.Dim.Y / 2) + (UnitCount.Y * UnitSize) + 50;
-        pos.y -= idx.Y * UnitSize;
+        pos.z = -300; //-(FightCtller.Dim.Y / 2) + (UnitCount.Y * UnitSize) + 50;
+        pos.z -= idx.Y * UnitSize;
         pos.x += UnitSize / 2;
         //pos.y -= UnitSize / 2;
         if (dir == DirType.Up)
         {
-            pos.y = -pos.y;
+            pos.z = -pos.z;
         }
         return pos;
     }

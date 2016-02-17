@@ -41,8 +41,8 @@ public class FightGridView : MonoBehaviour
         }
     }
 
-    Dictionary<AircraftView, Unit> m_acs = new Dictionary<AircraftView, Unit>();
-    public Dictionary<AircraftView, Unit> Aircrafts
+    Dictionary<CreatureView, Unit> m_acs = new Dictionary<CreatureView, Unit>();
+    public Dictionary<CreatureView, Unit> Aircrafts
     {
         get { return m_acs; }
     }
@@ -102,9 +102,9 @@ public class FightGridView : MonoBehaviour
         return null;
     }
 
-    void OnAddAircraft(Aircraft ac, Int2D pt)
+    void OnAddAircraft(Creature ac, Int2D pt)
     {
-        AircraftView av = Util.NewGameObject("Aircraft", gameObject).AddComponent<AircraftView>();
+        CreatureView av = Util.NewGameObject("Aircraft", gameObject).AddComponent<CreatureView>();
         av.Create(ac);
         av.UpdateTransform(pt);
     }
@@ -131,7 +131,7 @@ public class FightGridView : MonoBehaviour
     }
     void OnMouseDrag()
     {
-        Vector3 pt = Launcher.Instance.MainCamera.ScreenToWorldPoint(InputWrap.TouchPosition);
-        Unit curt = GetUnitView(pt);
+        //Vector3 pt = Launcher.Instance.MainCamera.ScreenToWorldPoint(InputWrap.TouchPosition);
+        //Unit curt = GetUnitView(pt);
     }
 }

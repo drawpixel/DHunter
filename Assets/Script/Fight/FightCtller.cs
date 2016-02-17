@@ -32,8 +32,6 @@ public class FightCtller
 
     public void Update(float interval)
     {
-        BulletPool.Instance.Update(interval);
-
         foreach (FightGrid fg in m_fg)
         {
             fg.Update(interval);
