@@ -1,4 +1,0 @@
-ID,Key,DT,AP,ShootInterval,BulletSpeed,Select,HitAction,HitActionParam0,HitActionParam1,Effects,GridOffset
-20001,P010,Fire,10,0.1,1200,Front,Once,0,0,,0_0
-20002,P011,Energy,10,0.1,1200,Front,Once,0,0,,1_0
-20003,P051,Fire,20,0.1,800,Front,Penetrate,4,0,,0_0
