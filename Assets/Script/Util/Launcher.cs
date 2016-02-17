@@ -112,9 +112,9 @@ public class Launcher : MonoBehaviour
             m_fc.FGrids[0].AddAircraft(ac, pts[p]);
         }
 
-        keys = new string[] { "M01", "N01" };
-        pts = new Int2D[] { new Int2D(2, 1), new Int2D(0, 2), new Int2D(1, 0) };
-        for (int p = 0; p < 2; ++p)
+        keys = new string[] { "M01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01" };
+        pts = new Int2D[] { new Int2D(0, 0), new Int2D(2, 0), new Int2D(3, 0), new Int2D(4, 0), new Int2D(0, 1), new Int2D(1, 1), new Int2D(2, 1), new Int2D(3, 1), new Int2D(4, 1), new Int2D(0, 2), new Int2D(1, 2), new Int2D(2, 2), new Int2D(3, 2), new Int2D(4, 2) };
+        for (int p = 0; p < keys.Length; ++p)
         {
             string k = keys[p];
             InfoCreature info = new InfoCreature(ProtoMgr.Instance.GetByKey<ProtoCreature>(k));
