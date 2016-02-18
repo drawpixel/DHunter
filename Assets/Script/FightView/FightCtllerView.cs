@@ -11,31 +11,31 @@ public class FightCtllerView : MonoBehaviour
         get { return m_ctller; }
     }
 
-    FightGridView[] m_fg = new FightGridView[2];
-
-    GameObject m_field;
-
+    FightGridView[] m_fgv = new FightGridView[2];
     public FightGridView[] FGridViews
     {
         get
         {
-            return m_fg;
-        }
-
-        set
-        {
-            m_fg = value;
+            return m_fgv;
         }
     }
+
+    GameObject m_field = null;
+    public GameObject Field
+    {
+        get { return m_field; }
+    }
+
+    
 
     public void Create(FightCtller ctller)
 	{
         m_ctller = ctller;
 
-        for (int i = 0; i < m_fg.Length; ++i)
+        for (int i = 0; i < m_fgv.Length; ++i)
         {
-            m_fg[i] = Util.NewGameObject("Grid_" + ctller.FGrids[i].Dir.ToString(), gameObject).AddComponent<FightGridView>();
-            m_fg[i].Create(this, m_ctller.FGrids[i]);
+            m_fgv[i] = Util.NewGameObject("Grid_" + ctller.FGrids[i].Dir.ToString(), gameObject).AddComponent<FightGridView>();
+            m_fgv[i].Create(this, m_ctller.FGrids[i]);
         }
 
         m_field = ResMgr.Instance.CreateGameObject(string.Format("Field/{0}", "F01"), gameObject);

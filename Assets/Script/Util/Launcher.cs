@@ -109,7 +109,7 @@ public class Launcher : MonoBehaviour
             
             Creature ac = new Creature();
             ac.Create(info);
-            m_fc.FGrids[0].AddAircraft(ac, pts[p]);
+            m_fc.FGrids[0].AddCreature(ac, pts[p]);
         }
 
         keys = new string[] { "M01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01", "N01" };
@@ -126,7 +126,7 @@ public class Launcher : MonoBehaviour
 
             Creature ac = new Creature();
             ac.Create(info);
-            m_fc.FGrids[1].AddAircraft(ac, pts[p]);
+            m_fc.FGrids[1].AddCreature(ac, pts[p]);
         }
 
         m_fc.Fight();

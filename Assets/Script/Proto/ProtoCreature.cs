@@ -13,7 +13,8 @@ public class ProtoCreature : ProtoBase
 
     public Int2D Dim;
     public int[] Occupies;
-    public int[] Pattern;
+
+    public int[] Skills;
 
     public override void Create()
     {

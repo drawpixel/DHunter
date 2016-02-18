@@ -42,7 +42,7 @@ public class FightGridView : MonoBehaviour
     }
 
     Dictionary<CreatureView, Unit> m_acs = new Dictionary<CreatureView, Unit>();
-    public Dictionary<CreatureView, Unit> Aircrafts
+    public Dictionary<CreatureView, Unit> Creatures
     {
         get { return m_acs; }
     }
@@ -79,11 +79,11 @@ public class FightGridView : MonoBehaviour
         cld.center = min + (max - min) / 2;
         cld.size = (max - min);
 
-        m_fight_grid.OnAddAircraft += OnAddAircraft;
+        m_fight_grid.OnAddCreature += OnAddCreature;
 	}
     void OnDestroy()
     {
-        m_fight_grid.OnAddAircraft -= OnAddAircraft;
+        m_fight_grid.OnAddCreature -= OnAddCreature;
     }
 
     void Update()
@@ -102,9 +102,9 @@ public class FightGridView : MonoBehaviour
         return null;
     }
 
-    void OnAddAircraft(Creature ac, Int2D pt)
+    void OnAddCreature(Creature ac, Int2D pt)
     {
-        CreatureView av = Util.NewGameObject("Aircraft", gameObject).AddComponent<CreatureView>();
+        CreatureView av = Util.NewGameObject("Creature", gameObject).AddComponent<CreatureView>();
         av.Create(ac);
         av.UpdateTransform(pt);
     }

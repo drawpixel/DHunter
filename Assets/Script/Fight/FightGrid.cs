@@ -9,8 +9,8 @@ public class FightGrid
     public static Int2D UnitCount = new Int2D(5, 3);
 
 
-    public delegate void DgtAddAircraft(Creature ac, Int2D pt);
-    public DgtAddAircraft OnAddAircraft;
+    public delegate void DgtAddCreature(Creature ac, Int2D pt);
+    public DgtAddCreature OnAddCreature;
 
 
 
@@ -22,8 +22,8 @@ public class FightGrid
 
     public enum DirType
     {
-        Down,
-        Up,
+        Up = 0,
+        Down = 1,
     }
     DirType m_dir = DirType.Down;
     public DirType Dir
@@ -35,12 +35,12 @@ public class FightGrid
     {
         public Int2D Index = new Int2D(0, 0);
         public Vector3 Position = Vector3.zero;
-        public Creature Aircraft = null;
+        public Creature Creature = null;
 
         public Unit(Int2D idx, Creature ac)
         {
             Index = idx;
-            Aircraft = ac;
+            Creature = ac;
         }
     }
     Unit[,] m_units = null;
@@ -52,10 +52,22 @@ public class FightGrid
         }
     }
 
+    public FightGrid Face
+    {
+        get
+        {
+            if (Dir == DirType.Up)
+                return m_ctller.FGrids[(int)DirType.Down];
+            else if (Dir == DirType.Down)
+                return m_ctller.FGrids[(int)DirType.Up];
+
+            return null;
+        }
+    }
 
 
     Dictionary<Creature, Unit> m_acs = new Dictionary<Creature, Unit>();
-    public Dictionary<Creature, Unit> Aircrafts
+    public Dictionary<Creature, Unit> Creatures
     {
         get { return m_acs; }
     }
@@ -94,7 +106,7 @@ public class FightGrid
         }
     }
 
-    public bool CheckAircraft(Creature ac, Int2D pt)
+    public bool CheckCreature(Creature ac, Int2D pt)
     {
         for (int i = 0; i < ac.Info.Proto.Occupies.Length; ++i)
         {
@@ -106,37 +118,38 @@ public class FightGrid
         }
         return true;
     }
-    public void AddAircraft(Creature ac, Int2D pt)
+    public void AddCreature(Creature ac, Int2D pt)
     {
-        if (!CheckAircraft(ac, pt))
+        if (!CheckCreature(ac, pt))
             return;
 
+        ac.FGrid = this;
+        ac.Index = pt;
         m_acs.Add(ac, new Unit(pt, ac));
 
-        ac.FGrid = this;
         for (int i = 0; i < ac.Info.Proto.Occupies.Length; ++i)
         {
             int idx = ac.Info.Proto.Occupies[i];
             int x = idx % ac.Info.Proto.Dim.X;
             int y = idx / ac.Info.Proto.Dim.X;
-            Units[pt.Y + y, pt.X + x].Aircraft = ac;
+            Units[pt.Y + y, pt.X + x].Creature = ac;
         }
 
-        if (OnAddAircraft != null)
+        if (OnAddCreature != null)
         {
-            OnAddAircraft(ac, pt);
+            OnAddCreature(ac, pt);
         }
     }
-    public void RemoveAircraft(Creature ac)
+    public void RemoveCreature(Creature ac)
     {
         m_acs.Remove(ac);
         for (int y = 0; y < Units.GetLength(0); ++y)
         {
             for (int x = 0; x < Units.GetLength(1); ++ x)
             {
-                if (Units[y, x].Aircraft == ac)
+                if (Units[y, x].Creature == ac)
                 {
-                    Units[y, x].Aircraft = null;
+                    Units[y, x].Creature = null;
                 }
             }
         }

@@ -4,12 +4,27 @@ using System.Collections.Generic;
 
 public class Creature
 {
-    public delegate void DgtTakeDamage(Creature killer, float curt);
-    public DgtTakeDamage OnTakeDamage;
+    public delegate void DgtIdle();
+    public DgtIdle OnIdle;
+
+    public delegate void DgtFight();
+    public DgtFight OnFight;
+
+    public delegate void DgtCast(int idx);
+    public DgtCast OnCast;
 
     public delegate void DgtDead(Creature killer);
     public DgtDead OnDead;
 
+    public delegate void DgtFreeze(Creature killer);
+    public DgtFreeze OnFreeze;
+
+
+    public delegate void DgtTakeDamage(Creature killer, float curt);
+    public DgtTakeDamage OnTakeDamage;
+
+    public delegate void DgtMentalityChange(Creature caster, MentalityType prev, MentalityType curt);
+    public DgtMentalityChange OnMentalityChange;
 
 
     InfoCreature m_info;
@@ -31,6 +46,15 @@ public class Creature
             m_fg = value;
         }
     }
+    Int2D m_idx;
+    public Int2D Index
+    {
+        get { return m_idx; }
+        set
+        {
+            m_idx = value;
+        }
+    }
 
     float m_max_hp = 0;
     public float MaxHP
@@ -49,6 +73,7 @@ public class Creature
         Idle,
         Fighting,
         Death,
+        Casting,
     }
     StateType m_state = StateType.Idle;
     public StateType State
@@ -57,7 +82,23 @@ public class Creature
     }
     float m_state_counter = 0;
 
-    
+
+    public enum MentalityType
+    {
+        Normal,
+        Freeze,
+        Blind,
+        Sleep,
+    }
+    MentalityType m_mentality = MentalityType.Normal;
+    public MentalityType Mentality
+    {
+        get { return m_mentality; }
+    }
+
+
+
+
 
     public void Create(InfoCreature info)
 	{
@@ -100,6 +141,17 @@ public class Creature
             OnTakeDamage(killer, damage);
         }
     }
+    public void TakeMentality(Creature caster, MentalityType mt)
+    {
+        MentalityType prev = m_mentality;
+        m_mentality = mt;
+
+        if (OnMentalityChange != null)
+        {
+            OnMentalityChange(caster, prev, mt);
+        }
+    }
+
 
     public void Idle()
     {
@@ -110,6 +162,23 @@ public class Creature
     {
         m_state = StateType.Fighting;
         m_state_counter = 0;
+
+        if (OnFight != null)
+        {
+            OnFight();
+        }
+    }
+    public void Cast(int idx)
+    {
+        m_state = StateType.Casting;
+        m_state_counter = 0;
+
+        
+
+        if (OnCast != null)
+        {
+            OnCast(idx);
+        }
     }
     public void Dead(Creature killer)
     {

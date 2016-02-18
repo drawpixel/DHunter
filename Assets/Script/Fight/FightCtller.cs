@@ -25,7 +25,7 @@ public class FightCtller
         for (int i = 0; i < m_fg.Length; ++i)
         {
             m_fg[i] = new FightGrid();
-            m_fg[i].Create(this, i == 0 ? FightGrid.DirType.Down : FightGrid.DirType.Up);
+            m_fg[i].Create(this, (FightGrid.DirType)i);
         }
         
 	}
